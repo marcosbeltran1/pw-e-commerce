@@ -13,7 +13,12 @@
         <ul class="nav-links">
           <li class="nav-item"><a href="#inicio" class="nav-link">Inicio</a></li>
           <li class="nav-item"><a href="#productos" class="nav-link">Productos</a></li>
-          <li class="nav-item"><a href="#carrito" class="nav-link">Carrito</a></li>
+          <li class="nav-item">
+            <a href="#carrito" class="nav-link">
+              Carrito
+              <span id="cart-count" class="cart-count" aria-live="polite">0</span>
+            </a>
+          </li>
         </ul>
       </nav>
     </header>
@@ -29,59 +34,23 @@
 
       <section id="productos" class="products-section" aria-labelledby="products-title">
         <h2 id="products-title" class="section-title">Productos destacados</h2>
-        <div class="products-grid">
-          <article class="product-card">
-            <img src="https://acdn-us.mitiendanube.com/stores/003/435/390/products/product-platinum-whey-protein-vainilla-star-1-f6b8c531e9325b345a17341382541541-1024-1024.webp" alt="Whey Protein sabor vainilla" class="product-image" />
-            <h3 class="product-name">Whey Protein Vainilla 1kg</h3>
-            <p class="product-price">$42.500 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-
-          <article class="product-card">
-            <img src="https://www.enasport.com/cdn/shop/files/CreaPure_2.png?v=1761763735&width=2048" alt="Creatina monohidratada micronizada" class="product-image" />
-            <h3 class="product-name">Creatina Monohidratada 200g</h3>
-            <p class="product-price">$29.900 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-
-          <article class="product-card">
-            <img src="https://matchday-nutrition.es/cdn/shop/files/BOOSTEnergyEditionMockup_1080x.jpg?v=1723746667" alt="Suplemento pre-entreno energía máxima" class="product-image" />
-            <h3 class="product-name">Pre-Entreno Energy Boost 400g</h3>
-            <p class="product-price">$25.700 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-
-          <article class="product-card">
-            <img src="https://acdn-us.mitiendanube.com/stores/003/703/137/products/limon-hd-64d6e23371b7ee660217323000961751-480-0.webp" alt="BCAA sabor frutas" class="product-image" />
-            <h3 class="product-name">BCAA Recovery 2:1:1 250g</h3>
-            <p class="product-price">$18.300 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-
-          <article class="product-card">
-            <img src="https://essentialsmx.com/cdn/shop/files/glutamina-500g-5035535.png?v=1768405691" alt="L-Glutamina en polvo" class="product-image" />
-            <h3 class="product-name">L-Glutamina Pure 500g</h3>
-            <p class="product-price">$21.800 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-
-          <article class="product-card">
-            <img src="https://www.enasport.com/cdn/shop/files/ZMA.jpg?v=1739376633&width=1000" alt="Multivitamínico deportivo" class="product-image" />
-            <h3 class="product-name">Multivitamínico Sport 90 cápsulas</h3>
-            <p class="product-price">$14.900 ARS</p>
-            <button type="button" class="product-buy-button">Comprar</button>
-          </article>
-        </div>
+        <div id="products-grid" class="products-grid"></div>
       </section>
 
       <section id="carrito" class="cart-section" aria-labelledby="cart-title">
         <h2 id="cart-title" class="section-title">Carrito</h2>
-        <p class="cart-empty-message">Tu carrito está vacío. ¡Sumá tus suplementos favoritos!</p>
+        <p id="cart-empty-message" class="cart-empty-message">Tu carrito está vacío. ¡Sumá tus suplementos favoritos!</p>
+        <div id="cart-items" class="cart-items"></div>
+        <div class="cart-summary">
+          <p class="cart-total">Total: <span id="cart-total-amount">$0 ARS</span></p>
+          <button id="clear-cart-button" type="button" class="clear-cart-button">Vaciar carrito</button>
+        </div>
       </section>
     </main>
 
     <footer class="site-footer">
       <p class="footer-text">© 2026 FitSuplementos AR - Venta de suplementos fitness en Argentina.</p>
     </footer>
+    <script src="script.js"></script>
   </body>
 </html>
