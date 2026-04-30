@@ -484,3 +484,76 @@ footer {
   padding: 2rem;
   font-style: italic;
 }
+
+/* ============================================================
+   BOTÓN VER DETALLE (en cada card de producto)
+   ============================================================ */
+.btn-detalle {
+  display: inline-block;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.btn-detalle:hover {
+  text-decoration: underline;
+}
+
+/* ============================================================
+   PÁGINA DE DETALLE DE PRODUCTO
+   ============================================================ */
+.detalle-producto {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 2rem 1.5rem;
+}
+
+.btn-volver {
+  display: inline-block;
+  margin-bottom: 1.5rem;
+  color: var(--color-primary);
+  text-decoration: none;
+  font-weight: 600;
+}
+
+.btn-volver:hover {
+  text-decoration: underline;
+}
+
+.detalle-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2.5rem;
+  align-items: start;
+}
+
+.detalle-grid img {
+  width: 100%;
+  border-radius: 12px;
+  background: #f5f5f5;
+}
+
+.descripcion-larga {
+  font-size: 1.1rem;
+  line-height: 1.6;
+  margin: 1rem 0;
+}
+
+.precio-grande {
+  font-size: 2rem;
+  margin: 1.5rem 0;
+}
+
+.btn-agregar-grande {
+  font-size: 1.1rem;
+  padding: 1rem 2rem;
+}
+
+@media (max-width: 700px) {
+  .detalle-grid {
+    grid-template-columns: 1fr;
+  }
+}

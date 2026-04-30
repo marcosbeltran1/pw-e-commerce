@@ -143,3 +143,54 @@ ambas versiones en el oral.
 [completar después]
 
 ---
+
+## Prompt 005 — Migración a Next.js con App Router
+**Fecha:** 2026-04-30
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Migrar la app de React + Vite a Next.js usando App Router.
+Estructura por carpetas en /app, con dos rutas: la home en `/`
+y el detalle de producto en `/producto/[id]` (ruta dinámica).
+Estado del carrito centralizado en un Context API (CarritoContext)
+expuesto por un componente cliente intermedio (ClientLayout) que
+envuelve la app dentro del Root Layout. Server Components por
+defecto donde no hay interactividad (Hero, Footer, Contacto,
+página de detalle); Client Components con "use client" donde
+hace falta estado o eventos (Header, Productos, ProductoCard,
+sidebar, items, botón agregar de detalle).
+
+### Por qué lo pedí así
+- Para cubrir el concepto de rutas en Next que evalúa el parcial,
+  tanto rutas estáticas como dinámicas.
+- Para poder explicar la diferencia entre Server y Client Components
+  (Momento 3 del parcial).
+- Decidí usar Context porque al haber múltiples rutas, prop drilling
+  ya no escala (las rutas son archivos separados).
+- Mantuve <img> plano en vez de next/image para no tener que
+  configurar dominios externos remotos, lo cual excedía el alcance.
+
+### Conceptos involucrados (para el oral)
+- File-based routing: cada carpeta en /app es un segmento de URL,
+  y page.jsx es el archivo que se renderiza.
+- Ruta dinámica: [id] entre corchetes captura el valor del segmento
+  como parámetro.
+- Server Components: se renderizan en el servidor, mandan HTML al
+  navegador, sin interactividad. Más rápidos y mejor SEO.
+- Client Components: se ejecutan en el navegador, tienen estado y
+  eventos. Marcados con "use client" en la primera línea.
+- Root Layout (app/layout.jsx): envuelve toda la app, define el
+  <html> y <body>, persiste entre navegaciones.
+- Context API: permite compartir estado entre componentes sin pasar
+  props explícitamente; necesario porque las rutas son archivos
+  separados.
+- next/link: navegación entre rutas sin recargar la página, con
+  prefetch automático.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---

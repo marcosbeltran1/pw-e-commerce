@@ -1,6 +1,10 @@
-import { formatearPrecio } from "../utils/formato";
+"use client";
 
-export default function ItemCarrito({ item, producto, onSumar, onRestar, onEliminar }) {
+import { useCarrito } from "./CarritoContext";
+import { formatearPrecio } from "@/utils/formato";
+
+export default function ItemCarrito({ item, producto }) {
+  const { agregarAlCarrito, quitarUnaUnidad, eliminarItem } = useCarrito();
   return (
     <div className="item-carrito">
       <img src={producto.imagen} alt={producto.nombre} />
@@ -11,18 +15,18 @@ export default function ItemCarrito({ item, producto, onSumar, onRestar, onElimi
       <div className="item-controles">
         <button
           className="btn-cantidad btn-restar"
-          onClick={() => onRestar(item.id)}
+          onClick={() => quitarUnaUnidad(item.id)}
           aria-label="Restar uno"
         >−</button>
         <span className="cantidad">{item.cantidad}</span>
         <button
           className="btn-cantidad btn-sumar"
-          onClick={() => onSumar(item.id)}
+          onClick={() => agregarAlCarrito(item.id)}
           aria-label="Sumar uno"
         >+</button>
         <button
           className="btn-eliminar"
-          onClick={() => onEliminar(item.id)}
+          onClick={() => eliminarItem(item.id)}
           aria-label="Eliminar producto"
         >🗑</button>
       </div>

@@ -1,13 +1,11 @@
-import { useState } from "react";
-import Header from "./components/Header";
-import Hero from "./components/Hero";
-import Productos from "./components/Productos";
-import Contacto from "./components/Contacto";
-import Footer from "./components/Footer";
-import CarritoSidebar from "./components/CarritoSidebar";
-import { productos } from "./data/productos";
+"use client";
 
-export default function App() {
+import { createContext, useContext, useState } from "react";
+import { productos } from "@/data/productos";
+
+const CarritoContext = createContext(null);
+
+export function CarritoProvider({ children }) {
   const [carrito, setCarrito] = useState([]);
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
 
@@ -40,38 +38,38 @@ export default function App() {
     setCarrito((prev) => prev.filter((i) => i.id !== id));
   }
 
+  function abrirSidebar() { setSidebarAbierto(true); }
+  function cerrarSidebar() { setSidebarAbierto(false); }
+
   const cantidadTotal = carrito.reduce((acc, i) => acc + i.cantidad, 0);
   const total = carrito.reduce((acc, i) => {
     const producto = productos.find((p) => p.id === i.id);
     return acc + producto.precio * i.cantidad;
   }, 0);
 
+  const value = {
+    carrito,
+    sidebarAbierto,
+    cantidadTotal,
+    total,
+    agregarAlCarrito,
+    quitarUnaUnidad,
+    eliminarItem,
+    abrirSidebar,
+    cerrarSidebar,
+  };
+
   return (
-    <>
-      <Header
-        cantidadTotal={cantidadTotal}
-        onAbrirCarrito={() => setSidebarAbierto(true)}
-      />
-      <main>
-        <Hero />
-        <Productos
-          productos={productos}
-          onAgregar={agregarAlCarrito}
-        />
-        <Contacto />
-      </main>
-      <Footer />
-      <CarritoSidebar
-        abierto={sidebarAbierto}
-        onCerrar={() => setSidebarAbierto(false)}
-        carrito={carrito}
-        productos={productos}
-        total={total}
-        cantidadTotal={cantidadTotal}
-        onSumar={agregarAlCarrito}
-        onRestar={quitarUnaUnidad}
-        onEliminar={eliminarItem}
-      />
-    </>
+    <CarritoContext.Provider value={value}>
+      {children}
+    </CarritoContext.Provider>
   );
+}
+
+export function useCarrito() {
+  const ctx = useContext(CarritoContext);
+  if (!ctx) {
+    throw new Error("useCarrito debe usarse dentro de CarritoProvider");
+  }
+  return ctx;
 }
