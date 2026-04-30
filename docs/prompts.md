@@ -96,3 +96,50 @@ mantener responsabilidades claras.
 [completar después]
 
 ---
+
+## Prompt 004 — Migración a React con Vite
+**Fecha:** 2026-04-30
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Migrar la app vanilla a React con Vite, dividiendo la UI en
+8 componentes (Header, Hero, Productos, ProductoCard, Contacto,
+Footer, CarritoSidebar, ItemCarrito), con el estado del carrito
+centralizado en App.jsx mediante useState y pasado a los hijos
+por props. Reusé el CSS existente sin cambios y mantuve el array
+de productos como módulo importable.
+
+### Por qué lo pedí así
+Para que cada concepto del Módulo 3 del parcial (componente,
+props, state, re-renderizado) quede ejemplificado en el código
+de la forma más limpia posible. Decidí mantener el estado en
+App.jsx en vez de usar Context para poder explicar el flujo de
+props sin agregar conceptos extra.
+
+La versión vanilla previa quedó preservada como commit en el
+repositorio de GitHub, así puedo mostrar la diferencia entre
+ambas versiones en el oral.
+
+### Conceptos involucrados (para el oral)
+- Componente: función JS que devuelve JSX.
+- JSX: sintaxis tipo HTML dentro de JS.
+- Props: datos que un padre le pasa a un hijo.
+- State (useState): datos que viven en un componente y al cambiar
+  disparan un re-render automático.
+- "Lifting state up": el estado del carrito está en App porque
+  varios hijos lo necesitan.
+- Re-render automático: a diferencia de vanilla, no llamo a
+  ninguna función "actualizarUI"; React detecta el cambio de
+  estado y redibuja lo necesario.
+- Inmutabilidad: no muto el array carrito directamente. Uso
+  setCarrito con copias nuevas (...prev, .map, .filter).
+- Key en listas: la prop `key` ayuda a React a identificar
+  elementos al re-renderizar listas.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---

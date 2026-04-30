@@ -3,7 +3,7 @@ export const productos = [
     id: 1,
     nombre: "Whey Protein 1kg",
     descripcion: "Proteína de suero de alta pureza, ideal para recuperación muscular post-entrenamiento.",
-    precio: 28000,
+    precio: 99999,
     imagen: "https://acdn-us.mitiendanube.com/stores/003/435/390/products/product-platinum-whey-protein-vainilla-star-1-f6b8c531e9325b345a17341382541541-1024-1024.webp"
   },
   {
