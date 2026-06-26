@@ -1,15 +1,21 @@
 import Link from "next/link";
-import { productos } from "@/data/productos";
+import { supabase } from "@/lib/supabaseClient";
 import { formatearPrecio } from "@/utils/formato";
 import BotonAgregarDetalle from "@/components/BotonAgregarDetalle";
 import { notFound } from "next/navigation";
 
 export default async function DetalleProducto({ params }) {
   const { id } = await params;
-  const producto = productos.find((p) => p.id === Number(id));
-  if (!producto) {
+  const { data: producto, error } = await supabase
+    .from("products")
+    .select("*")
+    .eq("id", Number(id))
+    .single();
+
+  if (error || !producto) {
     notFound();
   }
+
   return (
     <section className="detalle-producto">
       <Link href="/" className="btn-volver">← Volver al catálogo</Link>

@@ -11,7 +11,7 @@ export const productos = [
     nombre: "Creatina Monohidratada 200g",
     descripcion: "Aumenta la fuerza y potencia explosiva. Fórmula micronizada de fácil disolución.",
     precio: 15000,
-    imagen: "https://www.enasport.com/cdn/shop/files/CreaPure_2.png?v=1761763735&width=2048"
+    imagen: "https://www.enasport.com/cdn/shop/files/Crea-1Kg.webp?v=1779888288&width=2048"
   },
   {
     id: 3,
@@ -39,6 +39,6 @@ export const productos = [
     nombre: "Multivitamínico Sport 60 cápsulas",
     descripcion: "Fórmula completa de vitaminas y minerales para deportistas de alto rendimiento.",
     precio: 12000,
-    imagen: "https://www.enasport.com/cdn/shop/files/ZMA.jpg?v=1739376633&width=1000"
+    imagen: "https://acdn-us.mitiendanube.com/stores/002/040/765/products/multivitaminico-cafeina-minerales-60-comprimidos-ena-irontech-nutrition-1138a8902dc1893c2c17763709524532-1024-1024.webp"
   }
 ];

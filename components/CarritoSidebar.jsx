@@ -1,12 +1,11 @@
 "use client";
 
 import { useCarrito } from "./CarritoContext";
-import { productos } from "@/data/productos";
 import { formatearPrecio } from "@/utils/formato";
 import ItemCarrito from "./ItemCarrito";
 
 export default function CarritoSidebar() {
-  const { carrito, sidebarAbierto, total, cantidadTotal, cerrarSidebar } = useCarrito();
+  const { carrito, productos, sidebarAbierto, total, cantidadTotal, cerrarSidebar } = useCarrito();
 
   function finalizar() {
     if (cantidadTotal === 0) {

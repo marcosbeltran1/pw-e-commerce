@@ -1,9 +1,10 @@
 import Hero from "@/components/Hero";
 import Productos from "@/components/Productos";
 import Contacto from "@/components/Contacto";
-import { productos } from "@/data/productos";
+import { obtenerProductos } from "@/lib/productos";
 
-export default function Home() {
+export default async function Home() {
+  const productos = await obtenerProductos();
   return (
     <>
       <Hero />

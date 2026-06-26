@@ -324,3 +324,30 @@ sidebar, items, botón agregar de detalle).
 [completar después]
 
 ---
+
+## Prompt 007 — Productos desde Supabase (data-fetching)
+**Fecha:** 2026-06-26
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Conectar la app a Supabase con @supabase/supabase-js, crear el
+cliente en lib/supabaseClient.js y una función obtenerProductos()
+que consulta la tabla products. Cambiar app/page.jsx, app/layout.jsx
+y la página de detalle para que sean Server Components async que
+leen los productos desde la base. Adaptar el CarritoContext para
+recibir los productos por prop en lugar de importar el array.
+
+### Por qué lo pedí así
+Para mover los productos del código a la base de datos (data-fetching
+real). Hago la consulta desde Server Components, en el servidor, para
+que el HTML llegue ya con los productos y mejorar rendimiento y SEO.
+El CarritoContext, que es Client, recibe los productos por prop
+porque no puede hacer consultas async de servidor.
+
+### Conceptos involucrados (para la presentación)
+- Cliente de Supabase configurado con variables de entorno.
+- Data-fetching desde Server Components (async/await).
+- Diferencia Server vs Client para acceso a datos.
+- supabase.from("products").select() — consulta a la base.
+- Paso de datos del servidor al cliente vía props.
+- RLS: la política de lectura pública permite esta consulta.

@@ -1,11 +1,10 @@
 "use client";
 
 import { createContext, useContext, useState } from "react";
-import { productos } from "@/data/productos";
 
 const CarritoContext = createContext(null);
 
-export function CarritoProvider({ children }) {
+export function CarritoProvider({ productos, children }) {
   const [carrito, setCarrito] = useState([]);
   const [sidebarAbierto, setSidebarAbierto] = useState(false);
 
@@ -44,11 +43,12 @@ export function CarritoProvider({ children }) {
   const cantidadTotal = carrito.reduce((acc, i) => acc + i.cantidad, 0);
   const total = carrito.reduce((acc, i) => {
     const producto = productos.find((p) => p.id === i.id);
-    return acc + producto.precio * i.cantidad;
+    return acc + (producto ? producto.precio * i.cantidad : 0);
   }, 0);
 
   const value = {
     carrito,
+    productos,
     sidebarAbierto,
     cantidadTotal,
     total,
