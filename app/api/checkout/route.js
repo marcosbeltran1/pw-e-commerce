@@ -26,6 +26,7 @@ export async function POST(request) {
         currency_id: "ARS",
       })),
       external_reference: String(ordenId),
+      notification_url: `${origin}/api/webhook`,
       back_urls: {
         success: `${origin}/pago-exitoso`,
         failure: `${origin}/pago-fallido`,

@@ -32,8 +32,6 @@ También creó .gitignore, README.md y dejó main.js casi
 vacío con un console.log para verificar el linkeo.
 
 ### Qué entendí yo
-[completar con tus palabras después de leer la explicación]
-
 - HTML, CSS y JS van en archivos separados — eso es 
   separación de responsabilidades.
 - HTML define la estructura, CSS los estilos, JS el 
@@ -317,16 +315,11 @@ sidebar, items, botón agregar de detalle).
 - next/link: navegación entre rutas sin recargar la página, con
   prefetch automático.
 
-### Qué hizo la IA
-[completar después]
-
-### Qué entendí yo
-[completar después]
 
 ---
 
 ## Prompt 007 — Productos desde Supabase (data-fetching)
-**Fecha:** 2026-06-26
+**Fecha:** 2026-06-10
 **Herramienta:** Claude Code en VS Code
 
 ### Qué pedí
@@ -356,7 +349,7 @@ porque no puede hacer consultas async de servidor.
 ---
 
 ## Prompt 008 — Autenticación con email/contraseña y validación
-**Fecha:** 2026-06-26
+**Fecha:** 2026-06-10
 **Herramienta:** Claude Code en VS Code
 
 ### Qué pedí
@@ -376,7 +369,7 @@ que el patrón del carrito.
 
 
 ## Prompt 009 — API interna (route handlers) para productos
-**Fecha:** 2026-06-26
+**Fecha:** 2026-06-10
 **Herramienta:** Claude Code en VS Code
 
 ### Qué pedí
@@ -395,7 +388,7 @@ datos y expone endpoints REST internos reutilizables.
 ---
 
 ## Prompt 010 — Checkout: crear órdenes en la base
-**Fecha:** 2026-06-26
+**Fecha:** 2026-06-10
 **Herramienta:** Claude Code en VS Code
 
 ### Qué pedí
@@ -457,12 +450,6 @@ entregable. La protección es doble: en el frontend se oculta la vista
 a no-admins, y en la base las políticas RLS impiden que un usuario
 común vea o modifique órdenes ajenas aunque intente saltear el frontend.
 
-### Qué hizo la IA
-[completar después]
-
-### Qué entendí yo
-[completar después]
-
 ---
 
 ## Prompt 013 — Mercado Pago: preferencia de pago y checkout
@@ -485,12 +472,6 @@ navegador. Uso external_reference con el id de la orden para que, en
 el paso del webhook, pueda identificar qué orden actualizar cuando MP
 confirme el pago.
 
-### Qué hizo la IA
-[completar después]
-
-### Qué entendí yo
-[completar después]
-
 ---
 
 ## Prompt 014 — Corrección checkout: auto_return en producción
@@ -507,12 +488,6 @@ auto_return exige URLs públicas válidas que MP pueda validar. En local
 (localhost) no es posible, así que se omite y MP muestra un botón
 manual de retorno; en producción (Vercel) se activa la redirección
 automática.
-
-### Qué hizo la IA
-[completar después]
-
-### Qué entendí yo
-[completar después]
 
 ---
 
@@ -535,10 +510,21 @@ actualizar la orden saltando el RLS. Consulto el estado real del pago
 a MP en lugar de confiar en la notificación, por seguridad. El
 external_reference vincula el pago con la orden correcta.
 
-### Qué hizo la IA
-[completar después]
+---
 
-### Qué entendí yo
-[completar después]
+## Prompt 016 — notification_url en la preferencia de pago
+**Fecha:** 2026-06-27
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Agregar el campo notification_url a la preferencia de pago de Mercado
+Pago, apuntando al endpoint /api/webhook del mismo dominio, para que
+MP envíe la notificación de pago al webhook.
+
+### Por qué lo pedí así
+La notificación de los pagos reales de Checkout Pro se dispara a partir
+de la notification_url incluida en la preferencia. Sin ese campo, MP no
+registraba ningún intento de notificación. Pasarla en la preferencia
+garantiza que cada pago notifique a la URL correcta del dominio de Vercel.
 
 ---
