@@ -37,6 +37,7 @@ export function CarritoProvider({ productos, children }) {
     setCarrito((prev) => prev.filter((i) => i.id !== id));
   }
 
+  function vaciarCarrito() { setCarrito([]); }
   function abrirSidebar() { setSidebarAbierto(true); }
   function cerrarSidebar() { setSidebarAbierto(false); }
 
@@ -55,6 +56,7 @@ export function CarritoProvider({ productos, children }) {
     agregarAlCarrito,
     quitarUnaUnidad,
     eliminarItem,
+    vaciarCarrito,
     abrirSidebar,
     cerrarSidebar,
   };

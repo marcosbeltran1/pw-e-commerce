@@ -351,3 +351,194 @@ porque no puede hacer consultas async de servidor.
 - supabase.from("products").select() — consulta a la base.
 - Paso de datos del servidor al cliente vía props.
 - RLS: la política de lectura pública permite esta consulta.
+
+
+---
+
+## Prompt 008 — Autenticación con email/contraseña y validación
+**Fecha:** 2026-06-26
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Implementar autenticación con Supabase Auth (email + contraseña, sin
+confirmación por mail): un AuthContext que mantiene la sesión, páginas
+/registro y /login con formularios de validación robusta (formato de
+email, longitud de contraseña, coincidencia, mensajes de error por
+campo y manejo de errores del servidor), y mostrar el estado de
+sesión en el Header (email + cerrar sesión, o links ingresar/registrarse).
+
+### Por qué lo pedí así
+Para cubrir la autenticación de usuarios (base para órdenes y panel
+admin) y, al mismo tiempo, el entregable de formularios dinámicos con
+validación y fetch integrado. Centralicé la sesión en un Context para
+que cualquier componente pueda saber si hay un usuario logueado, igual
+que el patrón del carrito.
+
+
+## Prompt 009 — API interna (route handlers) para productos
+**Fecha:** 2026-06-26
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Crear route handlers de Next en app/api/productos (GET de todos) y
+app/api/productos/[id] (GET por id), que consultan Supabase y
+devuelven JSON con manejo de errores y códigos de estado HTTP
+adecuados. Agregar una función obtenerProductosClient() que consume
+esta API interna vía fetch desde el cliente.
+
+### Por qué lo pedí así
+Para cumplir el entregable de API interna: una capa propia entre el
+frontend y la base de datos, en lugar de consultar Supabase
+directamente desde todos lados. Centraliza la lógica de acceso a
+datos y expone endpoints REST internos reutilizables.
+
+---
+
+## Prompt 010 — Checkout: crear órdenes en la base
+**Fecha:** 2026-06-26
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Crear el endpoint POST /api/ordenes que recibe los items del carrito,
+valida el usuario por su token, recalcula el total en el servidor con
+los precios reales de la base, e inserta la orden en "orders" y sus
+renglones en "order_items". Conectar el botón "Finalizar compra" para
+que, si el usuario está logueado, llame a ese endpoint enviando el
+token; si no, lo redirija a /login. Vaciar el carrito tras la compra.
+
+### Por qué lo pedí así
+Para tener persistencia real de las compras (CRUD de órdenes) con la
+lógica de creación centralizada en la API interna. Recalculo el total
+en el servidor en lugar de confiar en el precio que manda el cliente,
+por seguridad. El token del usuario se envía en el header Authorization
+para que las políticas RLS de Supabase autoricen la inserción.
+
+---
+
+## Prompt 011 — Vista "Mis órdenes"
+**Fecha:** 2026-06-26
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Crear la página /mis-ordenes (Client Component) que consulta con un
+join las órdenes del usuario logueado junto con sus items y los datos
+de cada producto, y las muestra como tarjetas con fecha, estado, lista
+de productos y total. Manejar los casos de no logueado, sin órdenes,
+carga y error. Agregar el link "Mis órdenes" en el header para usuarios
+autenticados.
+
+### Por qué lo pedí así
+Para que el usuario tenga visibilidad de su historial de compras
+(entregable de vista de órdenes). Aproveché las políticas RLS: la
+consulta devuelve automáticamente solo las órdenes del usuario
+autenticado, sin filtrar manualmente, lo que es más seguro. Usé un
+join de Supabase para traer órdenes, items y productos en una sola
+consulta.
+
+---
+
+## Prompt 012 — Panel de administración con edición de órdenes
+**Fecha:** 2026-06-27
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Crear la página /admin protegida por email de administrador (variable
+de entorno + verificación con helper esAdmin). El admin ve todas las
+órdenes de todos los usuarios con sus items y productos, y puede
+cambiar el estado de cada orden mediante un select que ejecuta un
+update en Supabase. Mostrar el link "Admin" en el header solo para el
+administrador. La autorización real la garantizan las políticas RLS
+que permiten al admin (por su email) ver y actualizar todas las órdenes.
+
+### Por qué lo pedí así
+Para completar el CRUD de órdenes con la operación Update (cambio de
+estado) y tener un panel de administración funcional, como pide el
+entregable. La protección es doble: en el frontend se oculta la vista
+a no-admins, y en la base las políticas RLS impiden que un usuario
+común vea o modifique órdenes ajenas aunque intente saltear el frontend.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---
+
+## Prompt 013 — Mercado Pago: preferencia de pago y checkout
+**Fecha:** 2026-06-27
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Integrar Mercado Pago en sandbox: un endpoint /api/checkout que crea
+una preferencia de pago con el SDK de MP usando el access token del
+servidor, con los items de la orden y back_urls de retorno. Modificar
+"Finalizar compra" para que cree la orden en estado pendiente, genere
+la preferencia, y redirija al usuario al init_point del checkout de MP.
+Crear las páginas de retorno (exitoso, fallido, pendiente). Guardar el
+id de la orden como external_reference para vincular el pago con la orden.
+
+### Por qué lo pedí así
+Para integrar la pasarela de pago en modo test. El access token es
+secreto y se usa solo en el servidor (route handler), nunca en el
+navegador. Uso external_reference con el id de la orden para que, en
+el paso del webhook, pueda identificar qué orden actualizar cuando MP
+confirme el pago.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---
+
+## Prompt 014 — Corrección checkout: auto_return en producción
+**Fecha:** 2026-06-27
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Corregir el endpoint de checkout para que auto_return solo se incluya
+en producción, porque Mercado Pago rechaza auto_return cuando las
+back_urls usan localhost (error invalid_auto_return).
+
+### Por qué lo pedí así
+auto_return exige URLs públicas válidas que MP pueda validar. En local
+(localhost) no es posible, así que se omite y MP muestra un botón
+manual de retorno; en producción (Vercel) se activa la redirección
+automática.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---
+
+## Prompt 015 — Webhook de Mercado Pago
+**Fecha:** 2026-06-27
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Crear el endpoint /api/webhook que recibe las notificaciones de Mercado
+Pago, consulta el pago real a MP con el access token, identifica la orden
+por el external_reference, y actualiza su estado (approved→pagado,
+rejected→cancelado) usando un cliente admin de Supabase con la
+service_role key, que salta el RLS porque la actualización la hace el
+servidor sin sesión de usuario.
+
+### Por qué lo pedí así
+El webhook lo llama Mercado Pago, no el usuario, así que no hay sesión:
+por eso uso la service_role key (solo en el servidor) para poder
+actualizar la orden saltando el RLS. Consulto el estado real del pago
+a MP en lugar de confiar en la notificación, por seguridad. El
+external_reference vincula el pago con la orden correcta.
+
+### Qué hizo la IA
+[completar después]
+
+### Qué entendí yo
+[completar después]
+
+---
