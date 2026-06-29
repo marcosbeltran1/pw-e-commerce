@@ -41,6 +41,27 @@ export async function POST(request) {
       );
     }
 
+    // Verificar y descontar stock ANTES de crear la orden
+    // NOTA: en producción real esto debería ser una transacción atómica.
+    for (const item of items) {
+      const { data: ok, error: stockError } = await supabase.rpc(
+        "descontar_stock",
+        { p_product_id: item.id, p_cantidad: item.cantidad }
+      );
+      if (stockError) {
+        return NextResponse.json(
+          { error: "Error al verificar stock" },
+          { status: 500 }
+        );
+      }
+      if (ok === false) {
+        return NextResponse.json(
+          { error: "Sin stock suficiente para uno de los productos" },
+          { status: 409 }
+        );
+      }
+    }
+
     // Calcular total en el servidor
     let total = 0;
     const itemsParaInsertar = items.map((item) => {

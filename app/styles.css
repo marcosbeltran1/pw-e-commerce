@@ -1004,6 +1004,168 @@ footer {
   }
 }
 
+/* ── Pestañas del panel admin ── */
+.admin-tabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 1.75rem;
+  border-bottom: 2px solid #e0e0e0;
+  padding-bottom: 0;
+}
+
+.admin-tab {
+  padding: 0.55rem 1.25rem;
+  background: transparent;
+  border: none;
+  border-bottom: 3px solid transparent;
+  margin-bottom: -2px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  font-weight: 600;
+  color: #666;
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+  border-radius: 4px 4px 0 0;
+}
+
+.admin-tab:hover {
+  color: var(--color-primary);
+}
+
+.admin-tab.activo {
+  color: var(--color-primary);
+  border-bottom-color: var(--color-accent);
+  background: rgba(245, 166, 35, 0.06);
+}
+
+/* ── Pestaña Productos ── */
+.lista-admin-productos {
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.admin-producto-row {
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  background: var(--color-white);
+  border: 1px solid #e0e0e0;
+  border-radius: 10px;
+  padding: 0.9rem 1.1rem;
+  box-shadow: 0 1px 4px var(--color-card-shadow);
+  flex-wrap: wrap;
+}
+
+.admin-prod-nombre {
+  flex: 1;
+  font-weight: 600;
+  font-size: 0.95rem;
+  color: var(--color-primary);
+  min-width: 120px;
+}
+
+.admin-prod-campos {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  flex-wrap: wrap;
+}
+
+.input-admin {
+  width: 90px;
+  padding: 0.4rem 0.6rem;
+  border: 1.5px solid #d0d0d0;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--color-bg);
+  color: var(--color-text);
+  transition: border-color 0.2s;
+}
+
+.input-admin:focus {
+  outline: none;
+  border-color: var(--color-accent);
+}
+
+.btn-guardar-prod {
+  padding: 0.4rem 0.9rem;
+  background: var(--color-accent);
+  color: var(--color-primary);
+  border: none;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: opacity 0.2s;
+}
+
+.btn-guardar-prod:hover {
+  opacity: 0.85;
+}
+
+.badge-agotado {
+  display: inline-block;
+  padding: 0.2rem 0.6rem;
+  background: #f8d7da;
+  color: #721c24;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ── Pestaña Usuarios ── */
+.admin-usuarios-tabla {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.92rem;
+}
+
+.admin-usuarios-tabla th,
+.admin-usuarios-tabla td {
+  text-align: left;
+  padding: 0.65rem 0.9rem;
+  border-bottom: 1px solid #ebebeb;
+}
+
+.admin-usuarios-tabla th {
+  font-weight: 700;
+  color: var(--color-primary);
+  background: #f7f7f7;
+}
+
+.admin-usuarios-tabla tr:last-child td {
+  border-bottom: none;
+}
+
+.admin-usuarios-tabla tr:hover td {
+  background: #fafafa;
+}
+
+@media (max-width: 600px) {
+  .admin-producto-row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .admin-tabs {
+    gap: 0.25rem;
+  }
+
+  .admin-tab {
+    padding: 0.5rem 0.75rem;
+    font-size: 0.85rem;
+  }
+
+  .admin-usuarios-tabla th:last-child,
+  .admin-usuarios-tabla td:last-child {
+    display: none;
+  }
+}
+
 /* ============================================================
    PÁGINAS DE RESULTADO DE PAGO
    ============================================================ */

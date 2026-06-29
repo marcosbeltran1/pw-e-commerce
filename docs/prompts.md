@@ -528,3 +528,48 @@ registraba ningún intento de notificación. Pasarla en la preferencia
 garantiza que cada pago notifique a la URL correcta del dominio de Vercel.
 
 ---
+
+## Prompt 017 — Descuento automático de stock al comprar
+**Fecha:** 2026-06-29
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Modificar el endpoint de creación de órdenes para que, antes de crear la
+orden, verifique y descuente el stock de cada producto usando una función
+RPC de Supabase (descontar_stock) que hace el descuento de forma atómica
+con bloqueo de fila. Si algún producto no tiene stock suficiente, se
+rechaza la compra con código 409 y un mensaje claro.
+
+### Por qué lo pedí así
+El control de stock debe hacerse en el servidor para que sea confiable y
+no manipulable desde el cliente. Uso una función en la base de datos con
+bloqueo de fila (for update) para evitar condiciones de carrera cuando dos
+compras ocurren a la vez. Así el stock refleja las ventas reales.
+
+---
+
+## Prompt 018 — Panel admin ampliado: Productos y Usuarios
+**Fecha:** 2026-06-29
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Ampliar /admin con tres pestañas: Órdenes (existente), Productos (editar
+stock y precio) y Usuarios (lista de registrados). Crear dos endpoints
+protegidos por email de admin: GET /api/admin/usuarios (lista usuarios
+con el cliente admin de Supabase) y PATCH /api/admin/productos (actualiza
+stock/precio). Ambos verifican el token del usuario y que sea el admin
+antes de operar.
+
+### Por qué lo pedí así
+Los usuarios viven en auth.users, que solo es accesible con el cliente
+admin (service_role) desde el servidor, nunca desde el navegador; por eso
+la lista se sirve desde un endpoint protegido que valida que quien llama
+sea el admin. La edición de productos usa el mismo patrón de endpoint
+protegido. Las pestañas organizan el panel sin multiplicar páginas.
+
+### Conceptos involucrados
+- Cliente admin (service_role) solo en el servidor.
+- Endpoints protegidos por verificación de token + email de admin.
+- listUsers de la API de administración de Supabase Auth.
+
+---
