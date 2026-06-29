@@ -573,3 +573,19 @@ protegido. Las pestañas organizan el panel sin multiplicar páginas.
 - listUsers de la API de administración de Supabase Auth.
 
 ---
+## Prompt 019 — Rediseño premium de header y hero + feedback de carrito
+**Fecha:** 2026-06-29
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Rediseñar header y hero con una estética elegante y premium (acento
+dorado sobrio, fondos profundos, mejor jerarquía y transiciones suaves),
+sin tocar las tarjetas de producto ni la lógica. Agregar un feedback
+visual en el botón del carrito: cuando aumenta la cantidad de items, el
+botón pulsa en dorado un instante para que el usuario note el cambio.
+
+### Por qué lo pedí así
+El cambio de "0 a 1" en el carrito pasaba desapercibido; el pulso dirige
+la atención al carrito. El rediseño premium mejora la imagen del sitio
+manteniendo la paleta y sin alterar funcionalidad.
+---

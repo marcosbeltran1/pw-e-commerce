@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef, useState } from "react";
 import { useCarrito } from "./CarritoContext";
 import { useAuth } from "./AuthContext";
 import { esAdmin } from "@/lib/admin";
@@ -8,6 +9,21 @@ import { esAdmin } from "@/lib/admin";
 export default function Header() {
   const { cantidadTotal, abrirSidebar } = useCarrito();
   const { usuario, salir } = useAuth();
+
+  // Feedback visual: el botón del carrito pulsa cuando aumenta la cantidad.
+  const [pulsoCarrito, setPulsoCarrito] = useState(false);
+  const cantidadPrevia = useRef(cantidadTotal);
+
+  useEffect(() => {
+    if (cantidadTotal > cantidadPrevia.current) {
+      cantidadPrevia.current = cantidadTotal;
+      // Reinicia la animación aunque ya estuviera activa (varios "agregar" seguidos).
+      setPulsoCarrito(false);
+      const raf = requestAnimationFrame(() => setPulsoCarrito(true));
+      return () => cancelAnimationFrame(raf);
+    }
+    cantidadPrevia.current = cantidadTotal;
+  }, [cantidadTotal]);
 
   return (
     <header>
@@ -19,8 +35,9 @@ export default function Header() {
           <li><Link href="/#contacto">Contacto</Link></li>
           <li>
             <button
-              className="btn-carrito"
+              className={`btn-carrito${pulsoCarrito ? " pulso" : ""}`}
               onClick={abrirSidebar}
+              onAnimationEnd={() => setPulsoCarrito(false)}
               aria-label="Abrir carrito"
             >
               Carrito ({cantidadTotal})
