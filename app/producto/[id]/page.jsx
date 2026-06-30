@@ -4,6 +4,8 @@ import { formatearPrecio } from "@/utils/formato";
 import BotonAgregarDetalle from "@/components/BotonAgregarDetalle";
 import { notFound } from "next/navigation";
 
+export const revalidate = 60;
+
 export default async function DetalleProducto({ params }) {
   const { id } = await params;
   const { data: producto, error } = await supabase

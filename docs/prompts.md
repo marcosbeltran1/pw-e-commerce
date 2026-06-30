@@ -589,3 +589,19 @@ El cambio de "0 a 1" en el carrito pasaba desapercibido; el pulso dirige
 la atención al carrito. El rediseño premium mejora la imagen del sitio
 manteniendo la paleta y sin alterar funcionalidad.
 ---
+## Prompt 020 — Revalidación (ISR) de páginas de productos
+**Fecha:** 2026-06-29
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Habilitar revalidación por tiempo (export const revalidate = 60) en las
+páginas que muestran productos (home, layout y detalle de producto) para
+que reflejen los cambios hechos en la base (por ejemplo, precios editados
+desde el panel admin) sin necesidad de redeployar.
+
+### Por qué lo pedí así
+Las páginas eran estáticas y quedaban cacheadas desde el build, por lo
+que los cambios de datos en Supabase no se veían en producción. Con ISR,
+Next regenera la página con datos frescos cada 60 segundos, manteniendo
+la velocidad de las páginas estáticas y mostrando datos actualizados.
+---

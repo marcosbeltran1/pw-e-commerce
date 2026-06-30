@@ -2,6 +2,8 @@ import "./styles.css";
 import ClientLayout from "@/components/ClientLayout";
 import { obtenerProductos } from "@/lib/productos";
 
+export const revalidate = 60;
+
 export const metadata = {
   title: "Mundo Suplemento — Suplementos deportivos",
   description: "E-commerce de suplementos deportivos. Calidad premium para deportistas.",
