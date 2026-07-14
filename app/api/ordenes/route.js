@@ -75,10 +75,18 @@ export async function POST(request) {
       };
     });
 
-    // Crear la orden
+    // Crear la orden, copiando la dirección de envío del usuario para
+    // conservar a dónde se envió este pedido aunque después la cambie.
+    const direccion = user.user_metadata?.direccion || null;
+
     const { data: orden, error: ordenError } = await supabase
       .from("orders")
-      .insert({ user_id: user.id, total, estado: "pendiente" })
+      .insert({
+        user_id: user.id,
+        total,
+        estado: "pendiente",
+        direccion_envio: direccion,
+      })
       .select()
       .single();
     if (ordenError) {

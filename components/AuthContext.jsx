@@ -23,8 +23,20 @@ export function AuthProvider({ children }) {
     return () => listener.subscription.unsubscribe();
   }, []);
 
-  async function registrar(email, password) {
-    const { data, error } = await supabase.auth.signUp({ email, password });
+  async function registrar(email, password, direccion) {
+    const { data, error } = await supabase.auth.signUp({
+      email,
+      password,
+      options: { data: { direccion } },
+    });
+    return { data, error };
+  }
+
+  async function actualizarDireccion(direccion) {
+    const { data, error } = await supabase.auth.updateUser({
+      data: { direccion },
+    });
+    if (!error && data?.user) setUsuario(data.user);
     return { data, error };
   }
 
@@ -40,7 +52,14 @@ export function AuthProvider({ children }) {
     await supabase.auth.signOut();
   }
 
-  const value = { usuario, cargando, registrar, ingresar, salir };
+  const value = {
+    usuario,
+    cargando,
+    registrar,
+    ingresar,
+    salir,
+    actualizarDireccion,
+  };
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
 }
 

@@ -918,6 +918,36 @@ footer {
   border-color: var(--color-accent);
 }
 
+.form-subtitulo {
+  font-size: 1.05rem;
+  color: var(--color-primary);
+  margin-top: 0.5rem;
+  padding-top: 0.75rem;
+  border-top: 1px solid #e4e4e4;
+}
+
+.form-fila {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+}
+
+.cuenta-email {
+  font-size: 0.9rem;
+  color: var(--color-text);
+  opacity: 0.75;
+  margin-top: -0.75rem;
+}
+
+.exito-mensaje {
+  font-size: 0.9rem;
+  color: #1b5e20;
+  background: #e8f5e9;
+  border: 1px solid #a5d6a7;
+  border-radius: 8px;
+  padding: 0.65rem 0.9rem;
+}
+
 .error-mensaje {
   font-size: 0.82rem;
   color: #d32f2f;
@@ -1021,6 +1051,10 @@ footer {
     padding: 1.75rem 1.25rem;
   }
 
+  .form-fila {
+    grid-template-columns: 1fr;
+  }
+
   .usuario-email {
     display: none;
   }
@@ -1090,6 +1124,21 @@ footer {
 .orden-fecha {
   font-size: 0.82rem;
   color: #666;
+}
+
+/* Dirección de envío de la orden */
+.orden-direccion {
+  font-size: 0.88rem;
+  color: var(--color-text);
+  background: var(--color-bg);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  margin-bottom: 1rem;
+}
+
+.orden-direccion-label {
+  font-weight: 700;
+  color: var(--color-primary);
 }
 
 /* Badge de estado */

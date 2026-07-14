@@ -604,4 +604,19 @@ Las páginas eran estáticas y quedaban cacheadas desde el build, por lo
 que los cambios de datos en Supabase no se veían en producción. Con ISR,
 Next regenera la página con datos frescos cada 60 segundos, manteniendo
 la velocidad de las páginas estáticas y mostrando datos actualizados.
+---## Prompt 021 — Dirección de envío guardada en cada orden
+**Fecha:** 2026-07-13
+**Herramienta:** Claude Code en VS Code
+
+### Qué pedí
+Guardar la dirección de envío del usuario dentro de cada orden al
+momento de la compra (columna direccion_envio en orders), y mostrarla
+tanto en "Mis órdenes" como en el panel de administración.
+
+### Por qué lo pedí así
+La dirección vive en los metadatos del usuario, pero esa tabla no es
+consultable desde las vistas de órdenes. Copiarla dentro de la orden al
+momento de comprar evita depender de una consulta al usuario y, además,
+conserva la dirección real a la que se envió ese pedido aunque el
+cliente cambie su dirección después.
 ---

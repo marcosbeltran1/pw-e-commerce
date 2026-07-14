@@ -47,6 +47,7 @@ export default function Header() {
             <>
               <li className="usuario-email">{usuario.email}</li>
               <li><Link href="/mis-ordenes">Mis órdenes</Link></li>
+              <li><Link href="/mi-cuenta">Mi cuenta</Link></li>
               {esAdmin(usuario) && (
                 <li><Link href="/admin">Admin</Link></li>
               )}

@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 import { supabase } from "@/lib/supabaseClient";
-import { formatearPrecio } from "@/utils/formato";
+import { formatearPrecio, formatearDireccion } from "@/utils/formato";
 
 function formatearFecha(isoString) {
   return new Date(isoString).toLocaleString("es-AR", {
@@ -35,6 +35,7 @@ export default function MisOrdenes() {
           total,
           estado,
           created_at,
+          direccion_envio,
           order_items (
             id,
             cantidad,
@@ -101,6 +102,12 @@ export default function MisOrdenes() {
                   {orden.estado}
                 </span>
               </div>
+
+              <p className="orden-direccion">
+                <span className="orden-direccion-label">Envío a:</span>{" "}
+                {formatearDireccion(orden.direccion_envio) ??
+                  "Sin dirección registrada"}
+              </p>
 
               <ul className="orden-items">
                 {orden.order_items.map((item) => (

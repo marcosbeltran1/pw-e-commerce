@@ -5,7 +5,7 @@ import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 import { esAdmin } from "@/lib/admin";
 import { supabase } from "@/lib/supabaseClient";
-import { formatearPrecio } from "@/utils/formato";
+import { formatearPrecio, formatearDireccion } from "@/utils/formato";
 
 const ESTADOS = ["pendiente", "pagado", "enviado", "entregado", "cancelado"];
 
@@ -38,7 +38,7 @@ function TabOrdenes() {
       const { data, error: err } = await supabase
         .from("orders")
         .select(`
-          id, total, estado, created_at, user_id,
+          id, total, estado, created_at, user_id, direccion_envio,
           order_items ( id, cantidad, precio_unitario, products ( nombre, imagen ) )
         `)
         .order("created_at", { ascending: false });
@@ -104,6 +104,11 @@ function TabOrdenes() {
                 )}
               </div>
             </div>
+            <p className="orden-direccion">
+              <span className="orden-direccion-label">Envío a:</span>{" "}
+              {formatearDireccion(orden.direccion_envio) ??
+                "Sin dirección registrada"}
+            </p>
             <ul className="admin-items">
               {orden.order_items.map((item) => (
                 <li key={item.id} className="admin-item">

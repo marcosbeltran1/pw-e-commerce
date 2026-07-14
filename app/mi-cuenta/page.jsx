@@ -1,46 +1,34 @@
 "use client";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useAuth } from "@/components/AuthContext";
 
-export default function Registro() {
-  const { registrar } = useAuth();
-  const router = useRouter();
+export default function MiCuenta() {
+  const { usuario, cargando, actualizarDireccion } = useAuth();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmar, setConfirmar] = useState("");
   const [calle, setCalle] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [provincia, setProvincia] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
   const [errores, setErrores] = useState({});
   const [errorGeneral, setErrorGeneral] = useState("");
+  const [exito, setExito] = useState(false);
   const [enviando, setEnviando] = useState(false);
+
+  // Precarga la dirección guardada en los metadatos del usuario.
+  useEffect(() => {
+    const direccion = usuario?.user_metadata?.direccion;
+    if (direccion) {
+      setCalle(direccion.calle ?? "");
+      setCiudad(direccion.ciudad ?? "");
+      setProvincia(direccion.provincia ?? "");
+      setCodigoPostal(direccion.codigoPostal ?? "");
+    }
+  }, [usuario]);
 
   function validar() {
     const nuevosErrores = {};
-    const emailValido = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
-
-    if (!email) {
-      nuevosErrores.email = "El email es obligatorio.";
-    } else if (!emailValido) {
-      nuevosErrores.email = "Ingresá un email válido.";
-    }
-
-    if (!password) {
-      nuevosErrores.password = "La contraseña es obligatoria.";
-    } else if (password.length < 6) {
-      nuevosErrores.password = "La contraseña debe tener al menos 6 caracteres.";
-    }
-
-    if (!confirmar) {
-      nuevosErrores.confirmar = "Confirmá tu contraseña.";
-    } else if (confirmar !== password) {
-      nuevosErrores.confirmar = "Las contraseñas no coinciden.";
-    }
 
     if (!calle.trim()) {
       nuevosErrores.calle = "La calle y número son obligatorios.";
@@ -64,6 +52,7 @@ export default function Registro() {
   async function handleSubmit(e) {
     e.preventDefault();
     setErrorGeneral("");
+    setExito(false);
 
     const erroresValidacion = validar();
     if (Object.keys(erroresValidacion).length > 0) {
@@ -73,7 +62,7 @@ export default function Registro() {
     setErrores({});
 
     setEnviando(true);
-    const { error } = await registrar(email, password, {
+    const { error } = await actualizarDireccion({
       calle: calle.trim(),
       ciudad: ciudad.trim(),
       provincia: provincia.trim(),
@@ -82,78 +71,44 @@ export default function Registro() {
     setEnviando(false);
 
     if (error) {
-      setErrorGeneral(
-        error.message === "User already registered"
-          ? "Este email ya está registrado. Intentá iniciar sesión."
-          : error.message
-      );
+      setErrorGeneral("No se pudo guardar la dirección. Intentá de nuevo.");
       return;
     }
 
-    router.push("/");
+    setExito(true);
+  }
+
+  if (cargando) {
+    return <p className="estado-carga">Cargando...</p>;
+  }
+
+  if (!usuario) {
+    return (
+      <section className="auth-section">
+        <p>
+          <Link href="/login">Iniciá sesión</Link> para ver tu cuenta.
+        </p>
+      </section>
+    );
   }
 
   return (
     <section className="auth-section">
       <form className="auth-form" onSubmit={handleSubmit} noValidate>
-        <h1>Crear cuenta</h1>
+        <h1>Mi cuenta</h1>
+        <p className="cuenta-email">{usuario.email}</p>
+
+        <h2 className="form-subtitulo">Dirección de envío</h2>
 
         {errorGeneral && (
           <p className="error-general" role="alert">{errorGeneral}</p>
         )}
 
-        <div className="campo-form">
-          <label htmlFor="email">Email</label>
-          <input
-            id="email"
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            aria-describedby={errores.email ? "error-email" : undefined}
-            autoComplete="email"
-          />
-          {errores.email && (
-            <p id="error-email" className="error-mensaje" role="alert">
-              {errores.email}
-            </p>
-          )}
-        </div>
-
-        <div className="campo-form">
-          <label htmlFor="password">Contraseña</label>
-          <input
-            id="password"
-            type="password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-            aria-describedby={errores.password ? "error-password" : undefined}
-            autoComplete="new-password"
-          />
-          {errores.password && (
-            <p id="error-password" className="error-mensaje" role="alert">
-              {errores.password}
-            </p>
-          )}
-        </div>
-
-        <div className="campo-form">
-          <label htmlFor="confirmar">Confirmar contraseña</label>
-          <input
-            id="confirmar"
-            type="password"
-            value={confirmar}
-            onChange={(e) => setConfirmar(e.target.value)}
-            aria-describedby={errores.confirmar ? "error-confirmar" : undefined}
-            autoComplete="new-password"
-          />
-          {errores.confirmar && (
-            <p id="error-confirmar" className="error-mensaje" role="alert">
-              {errores.confirmar}
-            </p>
-          )}
-        </div>
-
-        <h2 className="form-subtitulo">Dirección de envío</h2>
+        {exito && (
+          <p className="exito-mensaje" role="status">
+            Dirección guardada correctamente.
+          </p>
+        )}
 
         <div className="campo-form">
           <label htmlFor="calle">Calle y número</label>
@@ -228,13 +183,8 @@ export default function Registro() {
         </div>
 
         <button type="submit" className="btn-auth" disabled={enviando}>
-          {enviando ? "Creando cuenta..." : "Crear cuenta"}
+          {enviando ? "Guardando..." : "Guardar dirección"}
         </button>
-
-        <p className="auth-link-texto">
-          ¿Ya tenés cuenta?{" "}
-          <Link href="/login">Iniciá sesión</Link>
-        </p>
       </form>
     </section>
   );
