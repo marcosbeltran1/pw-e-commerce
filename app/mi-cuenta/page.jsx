@@ -8,6 +8,7 @@ export default function MiCuenta() {
   const { usuario, cargando, actualizarDireccion } = useAuth();
 
   const [calle, setCalle] = useState("");
+  const [pisoDepto, setPisoDepto] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [provincia, setProvincia] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
@@ -21,6 +22,7 @@ export default function MiCuenta() {
     const direccion = usuario?.user_metadata?.direccion;
     if (direccion) {
       setCalle(direccion.calle ?? "");
+      setPisoDepto(direccion.pisoDepto ?? "");
       setCiudad(direccion.ciudad ?? "");
       setProvincia(direccion.provincia ?? "");
       setCodigoPostal(direccion.codigoPostal ?? "");
@@ -64,6 +66,7 @@ export default function MiCuenta() {
     setEnviando(true);
     const { error } = await actualizarDireccion({
       calle: calle.trim(),
+      pisoDepto: pisoDepto.trim(),
       ciudad: ciudad.trim(),
       provincia: provincia.trim(),
       codigoPostal: codigoPostal.trim(),
@@ -125,6 +128,18 @@ export default function MiCuenta() {
               {errores.calle}
             </p>
           )}
+        </div>
+
+        <div className="campo-form">
+          <label htmlFor="pisoDepto">Piso y departamento</label>
+          <input
+            id="pisoDepto"
+            type="text"
+            value={pisoDepto}
+            onChange={(e) => setPisoDepto(e.target.value)}
+            placeholder="Piso 4, depto B (opcional)"
+            autoComplete="address-line2"
+          />
         </div>
 
         <div className="campo-form">

@@ -13,6 +13,7 @@ export default function Registro() {
   const [password, setPassword] = useState("");
   const [confirmar, setConfirmar] = useState("");
   const [calle, setCalle] = useState("");
+  const [pisoDepto, setPisoDepto] = useState("");
   const [ciudad, setCiudad] = useState("");
   const [provincia, setProvincia] = useState("");
   const [codigoPostal, setCodigoPostal] = useState("");
@@ -75,6 +76,7 @@ export default function Registro() {
     setEnviando(true);
     const { error } = await registrar(email, password, {
       calle: calle.trim(),
+      pisoDepto: pisoDepto.trim(),
       ciudad: ciudad.trim(),
       provincia: provincia.trim(),
       codigoPostal: codigoPostal.trim(),
@@ -170,6 +172,18 @@ export default function Registro() {
               {errores.calle}
             </p>
           )}
+        </div>
+
+        <div className="campo-form">
+          <label htmlFor="pisoDepto">Piso y departamento</label>
+          <input
+            id="pisoDepto"
+            type="text"
+            value={pisoDepto}
+            onChange={(e) => setPisoDepto(e.target.value)}
+            placeholder="Piso 4, depto B (opcional)"
+            autoComplete="address-line2"
+          />
         </div>
 
         <div className="campo-form">

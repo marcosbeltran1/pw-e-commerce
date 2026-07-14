@@ -4,7 +4,12 @@ export function formatearPrecio(precio) {
 
 export function formatearDireccion(direccion) {
   if (!direccion) return null;
-  const partes = [direccion.calle, direccion.ciudad, direccion.provincia]
+  const partes = [
+    direccion.calle,
+    direccion.pisoDepto,
+    direccion.ciudad,
+    direccion.provincia,
+  ]
     .map((p) => (p ?? "").trim())
     .filter(Boolean);
   let texto = partes.join(", ");
